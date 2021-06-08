@@ -1,3 +1,5 @@
+import { Modal } from './UI/Modal';
+
 // Manage buttons for location / finding address
 class PlaceFinder {
   constructor() {
@@ -18,8 +20,15 @@ class PlaceFinder {
       return;
     }
 
+    const modal = new Modal(
+      '#loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+
     navigator.geolocation.getCurrentPosition(
       (successResp) => {
+        modal.hide();
         const coordinates = {
           lat: successResp.coords.latitude,
           lng: successResp.coords.longitude,
@@ -31,6 +40,7 @@ class PlaceFinder {
         );
       },
       (errorResp) => {
+        modal.hide();
         alert('Autolocation failed. Please enter address manually');
       }
     );
