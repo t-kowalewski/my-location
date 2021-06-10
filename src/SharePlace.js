@@ -1,4 +1,5 @@
 import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
 
 // Manage buttons for location / finding address
 class PlaceFinder {
@@ -7,7 +8,15 @@ class PlaceFinder {
     const locateUserBtn = document.querySelector('#locate-btn');
 
     addressForm.addEventListener('submit', this.findAddressHandler);
-    locateUserBtn.addEventListener('click', this.locateUserHandler);
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
+  }
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates);
+    } else {
+      this.map = new Map(coordinates);
+    }
   }
 
   findAddressHandler() {}
@@ -33,6 +42,8 @@ class PlaceFinder {
           lat: successResp.coords.latitude,
           lng: successResp.coords.longitude,
         };
+
+        this.selectPlace(coordinates);
 
         console.log(
           '🚀 ~ PlaceFinder ~ locateUserHandler ~ coordinates',

@@ -26,7 +26,8 @@ header h1 {
   margin: 0;
 }
 
-button {
+#share-controls button,
+#place-data button {
   font: inherit;
   font-size: 1.25rem;
   background: #36007c;
@@ -42,8 +43,8 @@ button:focus {
   outline: none;
 }
 
-button:hover,
-button:active {
+#share-controls button:hover,
+#place-data button:active {
   background: #55007c;
   border-color: #55007c;
 }
