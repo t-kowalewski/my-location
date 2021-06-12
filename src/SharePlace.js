@@ -1,5 +1,6 @@
 import { Modal } from './UI/Modal';
 import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
 
 // Manage buttons for location / finding address
 class PlaceFinder {
@@ -19,8 +20,25 @@ class PlaceFinder {
     }
   }
 
-  findAddressHandler() {}
+  // Find Place
+  findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+    if (!address || address.trim() === 0) {
+      alert("Address field can't be empty");
+      return;
+    }
 
+    const modal = new Modal(
+      '#loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+
+    getCoordsFromAddress(address);
+  }
+
+  // Get Current Location
   locateUserHandler() {
     if (!navigator.geolocation) {
       alert(
