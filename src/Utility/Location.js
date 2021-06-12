@@ -1,8 +1,9 @@
+// Will return promise resolved with coordinates
 export const getCoordsFromAddress = (address) => {
   const urlAddress = encodeURI(address); // convert str into url-friendly one
 
   return fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlAddress}.json?access_token=pk.eyJ1IjoidGtvd2FsZXdza2kiLCJhIjoiY2twcGwxaTlpMDMxZzJwbzFsdzNwb3QydyJ9.lZFcaEceMkO-fRI-GrMxCQ`
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlAddress}.json?types=address&access_token=pk.eyJ1IjoidGtvd2FsZXdza2kiLCJhIjoiY2twcGwxaTlpMDMxZzJwbzFsdzNwb3QydyJ9.lZFcaEceMkO-fRI-GrMxCQ`
   )
     .then((response) => {
       if (!response.ok) {

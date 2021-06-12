@@ -16,7 +16,7 @@ export class Map {
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [coordinates.lng, coordinates.lat],
-      zoom: 9,
+      zoom: 13,
     });
 
     new mapboxgl.Marker()

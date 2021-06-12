@@ -8,7 +8,7 @@ class PlaceFinder {
     const addressForm = document.querySelector('form');
     const locateUserBtn = document.querySelector('#locate-btn');
 
-    addressForm.addEventListener('submit', this.findAddressHandler);
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
   }
 
@@ -35,7 +35,20 @@ class PlaceFinder {
     );
     modal.show();
 
-    getCoordsFromAddress(address);
+    getCoordsFromAddress(address)
+      .then((data) => {
+        modal.hide();
+        const coordinates = {
+          lat: data[1],
+          lng: data[0],
+        };
+
+        this.selectPlace(coordinates);
+      })
+      .catch((error) => {
+        modal.hide();
+        alert(error.message);
+      });
   }
 
   // Get Current Location
@@ -62,11 +75,6 @@ class PlaceFinder {
         };
 
         this.selectPlace(coordinates);
-
-        console.log(
-          '🚀 ~ PlaceFinder ~ locateUserHandler ~ coordinates',
-          coordinates
-        );
       },
       (errorResp) => {
         modal.hide();
