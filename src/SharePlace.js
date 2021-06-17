@@ -9,9 +9,30 @@ class PlaceFinder {
     const addressForm = document.querySelector('form');
     const locateUserBtn = document.querySelector('#locate-btn');
 
-    // this.shareBtn.addEventListener('click');
+    this.shareBtn.addEventListener('click', this.sharePlaceHandler);
     addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
     locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this));
+  }
+
+  // Select & Copy to Clipboard Share Link
+  sharePlaceHandler() {
+    const sharedLinkInputElement = document.querySelector('#share-link');
+
+    sharedLinkInputElement.focus();
+    if (!navigator.clipboard) {
+      sharedLinkInputElement.select(); //selects input
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(sharedLinkInputElement.value)
+      .then(() => {
+        alert('Copied to clipboard');
+      })
+      .catch((error) => {
+        console.log(error);
+        sharedLinkInputElement.select();
+      });
   }
 
   // Render Map & Create Sharable link
