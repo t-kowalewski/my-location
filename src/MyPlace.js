@@ -5,16 +5,33 @@ class LoadedPlace {
     // Get data from URL - query parameters(key-value pairs), values are returned as strings
     const url = new URL(location.href);
     const queryParams = url.searchParams;
-    const coords = {
-      lat: +queryParams.get('lat'),
-      lng: +queryParams.get('lng'),
-    };
-    const address = queryParams.get('address'); //url is auto formatted into regular string
+    // const coords = {
+    //   lat: +queryParams.get('lat'),
+    //   lng: +queryParams.get('lng'),
+    // };
+    // const address = queryParams.get('address'); //url is auto formatted into regular string
 
-    const headerTitleEl = document.querySelector('header h1');
-    headerTitleEl.textContent = address;
+    const locId = queryParams.get('location');
 
-    new Map(coords);
+    fetch('http://localhost:3000/place/' + locId)
+      .then((response) => {
+        if (response.status === 404) {
+          throw new Error('Could not find location!');
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = data.address;
+
+        new Map(data.coords);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   }
 }
 

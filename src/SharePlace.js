@@ -43,14 +43,31 @@ class PlaceFinder {
       this.map = new Map(coordinates);
     }
 
-    this.shareBtn.disabled = false;
+    // Call to backend API
+    fetch('http://localhost:3000/add-place', {
+      method: 'POST',
+      body: JSON.stringify({
+        address: address,
+        lat: coordinates.lat,
+        lng: coordinates.lng,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
 
-    const sharedLinkInputElement = document.querySelector('#share-link');
-    sharedLinkInputElement.value = `${
-      location.origin
-    }/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lng=${
-      coordinates.lng
-    }`;
+        const locationId = data.locationId;
+
+        this.shareBtn.disabled = false;
+
+        const sharedLinkInputElement = document.querySelector('#share-link');
+        sharedLinkInputElement.value = `${location.origin}/my-place?location=${locationId}`;
+      });
   }
 
   // Find Place
