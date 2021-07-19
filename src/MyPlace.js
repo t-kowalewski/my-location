@@ -15,7 +15,7 @@ class LoadedPlace {
 
     fetch('http://localhost:3000/place/' + locId)
       .then((response) => {
-        if (response.status === 404) {
+        if (response.status === 404 || response.status === 500) {
           throw new Error('Could not find location!');
         }
 
